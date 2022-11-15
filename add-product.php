@@ -6,6 +6,9 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
     $sku = "";
     $name = "";
     $price = "";
+    $size = "";
+    $weight = "";
+    $dimensions ="";
 
     $errorMessage = "";
     $successMessage = "";
@@ -14,19 +17,38 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         $sku = $_POST["sku"];
         $name = $_POST["name"];
         $price = $_POST["price"];
+        $size = $_POST["size"];
+        $weight = $_POST["weight"];
+        $dimensions = $_POST["dimensions"];
 
         do{
             if(empty($sku) || empty($name) || empty($price)) {
-                $errorMessage ="Please fill all fields";
+                $errorMessage ="Please fill fields";
                 break;
             }
-            //add new client to db
             //add new item to db
+            $sql = "INSERT INTO items (sku, name, price, size, weight, dimensions)" . "VALUES ('$sku', '$name', '$price', '$size', '$weight', '$dimensions')";
+            //execute sql query
+            $result = $connect->query($sql);
+            //if error
+                if(!$result) {
+                $errorMessage = "invalid query" . $connection->error;
+                break;
+            }
+
+
             $sku = "";
             $name = "";
             $price = "";
+            $size = "";
+            $weight = "";
+            $dimensions ="";
 
             $successMessage = "items added";
+            //redirect after 
+            header("location: /index.php");
+            exit;
+
         } while (false);
     }
 ?>
@@ -50,7 +72,7 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
     ?>
         <form method="POST" id="product-form">
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">SKU</label>
+                <label class="col-sm-3 col-form-label">sku</label>
                 <div class="col-sm-6">
                     <input type="text" name="sku" id="sku" placeholder="SKU" value="<?php echo $sku; ?>">
                 </div>
@@ -67,6 +89,24 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
                     <input type="text" name="price" id="price" placeholder="Price" value="<?php echo $price; ?>">
                 </div>
             </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">size</label>
+                <div class="col-sm-6">
+                    <input type="text" name="price" id="price" placeholder="size" value="<?php echo $size; ?>">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">weight</label>
+                <div class="col-sm-6">
+                    <input type="text" name="price" id="price" placeholder="weight" value="<?php echo $weight; ?>">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">dimensions</label>
+                <div class="col-sm-6">
+                    <input type="text" name="price" id="price" placeholder="dimensions" value="<?php echo $dimensions; ?>">
+                </div>
+            </div>
             <?php 
         if(!empty($successMessage)) {
             echo "<strong>$successMessage</strong>";}
@@ -75,8 +115,9 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
                 <div class="offset-sm-3 col-sm-3 d-grid">
                     <button type="submit"  class="btn btn-primary">Save</button>
                 </div>
+                
                 <div class="col-sm-3 d-grid">
-                    <button class="btn btn-outline-primary" href="/webshop/index.php" role="button" >Cancel</button>
+                    <button class="btn btn-outline-primary" href="/index.php" role="button">Cancel</button>
                 </div>
             </div>
         </form>
