@@ -58,6 +58,8 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css
 ">
+    
+
     <title>webShop</title>
 </head>
 <body>
@@ -96,7 +98,17 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
                     <input type="text" name="price" id="price" placeholder="Price" value="<?php echo $price; ?>">
                 </div>
             </div>
-            <textarea v-model="text"></textarea>
+            <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Type Switcher
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#">DVD</a>
+    <a class="dropdown-item" href="#">Books</a>
+    <a class="dropdown-item" href="#">Furniture</a>
+  </div>
+</div>
+            <textarea v-model="text" placeholder="description depending on the chosen item category //temporarybox//"></textarea>
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">size</label>
                 <div class="col-sm-6">
@@ -125,9 +137,15 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
             display: flex;
             justify-content: space-between;
         }
+        textarea{
+            width: 400px;
+            height: 200px;
+        }
     
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <script type="module">
+
     import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
     createApp({
@@ -138,7 +156,6 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         },
     }).mount('#add-product')
     </script>
-
 
 </body>
 </html>
