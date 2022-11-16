@@ -40,12 +40,13 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <div class="container my-4" id="index">
         <hr>
     <div class="row">
+        
         <!-- loop over items array  -->
     <?php foreach($items as $item){  ?>
 
     <div class="card">
         <label class="check-container">
-            <input type="checkbox" class="delete-checkbox" name="delete[]" value='<?= $id ?>'>
+            <input type="checkbox" class="delete-checkbox" >
         </label>
         <!-- render items on main page  -->    
         <div class="item-info">
