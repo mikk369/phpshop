@@ -1,8 +1,5 @@
 <?php
 //db connection
-
-use LDAP\Result;
-
 include_once "./dbConn.php";
 $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
 
@@ -80,34 +77,39 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         }
         ?>
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">sku</label>
+                <label class="col-sm-1 col-form-label">sku</label>
                 <div class="col-sm-6">
                     <!-- name parameter is submitted to db  -->
                     <input type="text" name="sku" id="sku" placeholder="SKU" value="<?php echo $sku; ?>">
                 </div>
             </div>
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Name</label>
+                <label class="col-sm-1 col-form-label">Name</label>
                 <div class="col-sm-6">
                     <input type="text" name="name" id="name" placeholder="Name" value="<?php echo $name; ?>">
                 </div>
             </div>
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Price ($)</label>
+                <label class="col-sm-1 col-form-label">Price ($)</label>
                 <div class="col-sm-6">
                     <input type="text" name="price" id="price" placeholder="Price" value="<?php echo $price; ?>">
                 </div>
             </div>
-            <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Type Switcher
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">DVD</a>
-    <a class="dropdown-item" href="#">Books</a>
-    <a class="dropdown-item" href="#">Furniture</a>
-  </div>
-</div>
+            <div class="typeswitcher">
+                <div>
+                    <h4>Type Switcher</h4>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="productType" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Type Switcher
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">DVD</a>
+                        <a class="dropdown-item" href="#">Books</a>
+                        <a class="dropdown-item" href="#">Furniture</a>
+                    </div>
+                </div>
+            </div>
             <textarea v-model="text" placeholder="description depending on the chosen item category //temporarybox//"></textarea>
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">size</label>
@@ -131,11 +133,23 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         <hr>
     </div>
 
-
     <style>
+       .typeswitcher{
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+       }
+       
+       .dropdown{
+        padding: 6px;
+       }
+
         .nav-row{
             display: flex;
             justify-content: space-between;
+        }
+        .dropdown{  
+            width: 300px;
         }
         textarea{
             width: 400px;
@@ -144,8 +158,8 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
     
     </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    <script type="module">
 
+    <script type="module">
     import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
     createApp({
