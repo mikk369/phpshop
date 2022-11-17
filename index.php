@@ -1,20 +1,35 @@
 <?php
 include_once "./dbConn.php";
 $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
-//check connection
+
 if(!$connect) {
     echo "Connection Error:" . mysqli_connect_errno();
 }
-//query all from items table
+//query for the items i want
 $sql = "SELECT * FROM items";
 //make query & get result
 $result = mysqli_query($connect, $sql);
-//if any errors with query display error msg
-if(!$result) {
-    die("Invalid query:" . $connect->error);
-}
-//fetch the resulting rows as an array
+//fetch th resulting rows as an array
 $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+// print_r($items);
+
+	// // Shows all post values:
+	// foreach($_POST as $key => $value)
+	// {
+	// echo 'Key = ' . $key . '&nbsp;';
+	// echo 'Value= ' . $value . '<br />';
+	// }
+    if(isset($_POST["no"])){
+    $no = $_POST['no']; // take checkbox values , its array;
+    // echo "<pre>";
+    // print_r($no);   // shows whats inside array
+    // echo "</pre>";
+    $no_to_comma_list = implode(',', $no); // changes array to string separated with commas;
+    // echo $no_to_comma_list;
+    // echo "DELETE FROM items WHERE id IN (".$no_to_comma_list.")";
+    mysqli_query($connect,"DELETE FROM items WHERE id IN (".$no_to_comma_list.")");
+    }   
 ?>
 
 <!DOCTYPE html>
@@ -28,27 +43,27 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <title>Webshop</title>
 </head>
 <body>
-    <div class="nav-bar my-4">
-        <div class="nav-logo">
-            <h2>Product list</h2>
-        </div>
-        <div class="nav-buttons">
-            <a class="btn btn-primary" href="/add-product.php" role="button">ADD</a>
-            <a class="btn btn-danger" role="button">MASS DELETE</a>
-        </div>
-    </div>
-    <div class="container my-4" id="index">
-        <hr>
+    <div class="container my-5" id="index">
+        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <div class="nav-row mb3">
+                <h2>{{ title }}</h2>
+                <div class="nav-buttons">
+                    <a class="btn btn-primary" href="/add-product.php" role="button">ADD</a>
+                    <input class="btn btn-danger" type="submit" name="delete_records" value="MASS DELETE" onclick="window.location.reload();">
+                </div>
+            </div>
+
     <div class="row">
-        
-        <!-- loop over items array  -->
+        <!-- loop over item array  -->
     <?php foreach($items as $item){  ?>
 
     <div class="card">
         <label class="check-container">
-            <input type="checkbox" class="delete-checkbox" >
+            <?php
+                echo "<input type='checkbox' name='no[]' value='".$item['id']."' class='delete-checkbox'>";
+            ?>
         </label>
-        <!-- render items on main page  -->    
+        <!-- render items on main page  -->
         <div class="item-info">
             <h4><b><?php echo htmlspecialchars($item["sku"]); ?></b></h4>
             <p><?php echo "name: " . htmlspecialchars($item["name"]); ?></p>
@@ -58,53 +73,49 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <p><?php echo "dimensions: " . htmlspecialchars($item["dimensions"]); ?></p>
         </div>
     </div>
+
         <?php } ?> 
 
     </div>
-    <hr>
+
+    </form>
 </div>
-<footer>Scandiweb test assignment</footer>
+
 <style>
     *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
-    .nav-bar{
-    display: flex;
-    justify-content: space-between;
-    margin: 0 120px 0 120px;
-    }
-    
     p{
-    margin-bottom: 0;
+        margin-bottom: 0;
+    }
+    .nav-row{
+        display: flex;
+        justify-content: space-between;
     }
     .check-container{
-    position: relative;
+        position: relative;
     }
     .checkmark{
-    position: absolute;
-    top: 50%;
-    left: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
     }
     .item-info{
-    text-align: center;
-    justify-content: center;
-    padding-bottom: 40px;
+        text-align: center;
+        justify-content: center;
+        padding-bottom: 40px;
     }
     .row{
-    gap: 30px;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 150px);
-    justify-content: center;
+        gap: 30px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 150px);
     }
-.card{
-    display: flex;
-    width: 300px;  
-}
-footer {
-    text-align: center;
-    padding-bottom: 9px;
+    .card{
+        display: flex;
+        background-color: gray;
+        width: 300px;  
 }
 </style>
 
@@ -114,11 +125,11 @@ footer {
     createApp({
         data() {
         return {
-            title: 'Add product'
-        }
-    },    
-}).mount('#index')
-</script>
+            title: 'Product list',
+            }
+        },
+    }).mount('#index')
+    </script>
 
 </body>
 </html>
