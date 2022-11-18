@@ -66,7 +66,7 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
             <h2>{{ title }}</h2>
                 <div class="nav-buttons">
                     <button type="submit"  class="btn btn-primary">Save</button>
-                    <a class="btn btn-outline-danger" href="/index.php" role="button">CANCEL</a>
+                    <a class="btn btn-danger" href="/index.php" role="button">CANCEL</a>
                 </div>
         </div>
         <hr>
@@ -147,6 +147,9 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         .nav-row{
             display: flex;
             justify-content: space-between;
+        }
+        .nav-buttons button {
+            margin-right: 30px;
         }
         .dropdown{  
             width: 300px;
