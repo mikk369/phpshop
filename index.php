@@ -29,7 +29,10 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
     // echo $no_to_comma_list;
     // echo "DELETE FROM items WHERE id IN (".$no_to_comma_list.")";
     mysqli_query($connect,"DELETE FROM items WHERE id IN (".$no_to_comma_list.")");
+    //returns to index page to remove deleted items
+    header("location:index.php");
     }   
+    
 ?>
 
 <!DOCTYPE html>
@@ -49,15 +52,15 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 <h2>{{ title }}</h2>
                 <div class="nav-buttons">
                     <a class="btn btn-primary" href="/add-product.php" role="button">ADD</a>
-                    <input class="btn btn-danger" type="submit" name="delete_records" value="MASS DELETE" onclick="window.location.reload();">
+                    <input class="btn btn-danger" type="submit" name="delete_records" value="MASS DELETE">
                 </div>
             </div>
-
+        <hr>
     <div class="row">
         <!-- loop over item array  -->
-    <?php foreach($items as $item){  ?>
+        <?php foreach($items as $item){  ?>
 
-    <div class="card">
+        <div class="card">
         <label class="check-container">
             <?php
                 echo "<input type='checkbox' name='no[]' value='".$item['id']."' class='delete-checkbox'>";
@@ -72,14 +75,13 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <p><?php echo "weight: " . htmlspecialchars($item["weight"]); ?></p>
             <p><?php echo "dimensions: " . htmlspecialchars($item["dimensions"]); ?></p>
         </div>
-    </div>
-
+        </div>
         <?php } ?> 
-
     </div>
-
-    </form>
+        </form>
+    <hr>
 </div>
+
 
 <style>
     *{
@@ -114,7 +116,6 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
     .card{
         display: flex;
-        background-color: gray;
         width: 300px;  
 }
 </style>
