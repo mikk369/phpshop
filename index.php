@@ -96,6 +96,9 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
         display: flex;
         justify-content: space-between;
     }
+    .nav-buttons a{
+        margin-right: 30px;
+    }
     .check-container{
         position: relative;
     }
