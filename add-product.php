@@ -110,25 +110,28 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
                     </div>
                 </div>
             </div>
-            <textarea v-model="text" placeholder="description depending on the chosen item category //temporarybox//"></textarea>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">size</label>
-                <div class="col-sm-6">
-                    <input type="text" name="size" id="size" placeholder="size" value="<?php echo $size; ?>">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">weight</label>
-                <div class="col-sm-6">
-                    <input type="text" name="weight" id="weight" placeholder="weight" value="<?php echo $weight; ?>">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">dimensions</label>
-                <div class="col-sm-6">
-                    <input type="text" name="dimensions" id="dimensions" placeholder="dimensions" value="<?php echo $dimensions; ?>">
-                </div>
-            </div>
+            <form method="POST">
+                    <div class="switcher-form">
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label">size</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="size" id="size" placeholder="size" value="<?php echo $size; ?>">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label">weight</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="weight" id="weight" placeholder="weight" value="<?php echo $weight; ?>">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label">dimensions</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="dimensions" id="dimensions" placeholder="dimensions" value="<?php echo $dimensions; ?>">
+                            </div>
+                        </div>
+                    </div>
+            </form>
         </form>
         <hr>
     </div>
@@ -142,6 +145,12 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
        
        .dropdown{
         padding: 6px;
+       }
+      
+       .switcher-form{
+        border: 3px solid black;
+        width: 40%;
+        padding: 9px;
        }
 
         .nav-row{
