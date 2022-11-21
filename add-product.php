@@ -11,7 +11,6 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
     $weight = "";
     $dimensions ="";
 
-    $errorMessage ="";
     // check if data is transmitted using post method 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $sku = $_POST["sku"];
@@ -21,32 +20,16 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         $weight = $_POST["weight"];
         $dimensions = $_POST["dimensions"];
 
-        //check if any fields are empty if so display error msg
-        do{
-            if(empty($sku)|| empty($name)||empty($price)) {
-                $errorMessage = "Please fill all fields";
-                break;
-            }
-            
             //add new item to db
             $sql = "INSERT INTO items (sku, name, price, size, weight, dimensions)" . "VALUES ('$sku', '$name', '$price', '$size', '$weight', '$dimensions')";
             //execute sql query
             $result = $connect->query($sql);
 
-            // gives undefined const 
-            // if(!result) {
-            //     $errorMessage = "Invalid query: " . "$connect->error";
-            //     break;
-            // }
-            
             //redirect after 
             header("location: /index.php");
             exit;
-            
-        }while(false);
-    } 
+    }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,8 +38,6 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css
 ">
-    
-
     <title>webShop</title>
 </head>
 <body>
@@ -70,12 +51,6 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
                 </div>
         </div>
         <hr>
-        <!-- display error message  -->
-        <?php 
-        if(!empty($errorMessage)){
-            echo"<strong>$errorMessage</strong>";
-        }
-        ?>
             <div class="row mb-3">
                 <label class="col-sm-1 col-form-label">sku</label>
                 <div class="col-sm-6">
@@ -99,43 +74,23 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
                 <div>
                     <h4>Type Switcher</h4>
                 </div>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="productType" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Type Switcher
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">DVD</a>
-                        <a class="dropdown-item" href="#">Books</a>
-                        <a class="dropdown-item" href="#">Furniture</a>
-                    </div>
-                </div>
+                <select v-model="items" name="typeSwitcher" id="typeSwitcher" @change="onChange($event)" >
+                    <option value="">Choose product type</option>
+                    <option value="form1">DVD</option>
+                    <option value="form2">Books</option>
+                    <option value="form3">Furniture</option>
+                </select>
             </div>
             <form method="POST">
                     <div class="switcher-form">
-                        <div class="row mb-3">
-                            <label class="col-sm-3 col-form-label">size</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="size" id="size" placeholder="size" value="<?php echo $size; ?>">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-3 col-form-label">weight</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="weight" id="weight" placeholder="weight" value="<?php echo $weight; ?>">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-3 col-form-label">dimensions</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="dimensions" id="dimensions" placeholder="dimensions" value="<?php echo $dimensions; ?>">
-                            </div>
-                        </div>
+                        <div class="row mb-1" v-for="type in switcherForm" v-html="type.size"></div>
+                        <div class="row mb-1" v-for="type in switcherForm" v-html="type.weight" ></div>
+                        <div class="row mb-1" v-for="type in switcherForm" v-html="type.dimensions" ></div>
                     </div>
             </form>
         </form>
         <hr>
     </div>
-
     <style>
        .typeswitcher{
         display: flex;
@@ -151,7 +106,17 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         border: 3px solid black;
         width: 40%;
         padding: 9px;
+        position: relative;
+        flex-flow: row wrap;
        }
+       
+       
+       @media (max-width: 993px) {
+        .switcher-form  input {
+            width: 100%;
+            margin-top: 0;
+            }
+        }
 
         .nav-row{
             display: flex;
@@ -178,10 +143,49 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         data() {
         return {
             title: 'Add product',
+            form1: "",
+            form2: "",
+            form3: "",
+            items: "",
+            switcherForm: [{size: `
+                            <label class="col-sm-4 col-form-label">size (MB)</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="size" placeholder="size" value="<?php echo $size; ?>"></input>
+                            </div>
+                            `},
+                            {weight: `
+                             <label class="col-sm-4 col-form-label">weight (KG)</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="weight" placeholder="weight" value="<?php echo $weight; ?>"></input>
+                            </div>
+                            `},
+                            {dimensions: `
+                            <label class="col-sm-4 col-form-label">dimensions</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="dimensions" placeholder="dimensions" value="<?php echo $dimensions; ?>"></input>
+                            </div>
+                            `}]        
             }
         },
+        methods: {
+            form_1(){
+                this.form_1 = switcherForm.size
+            },
+            form_2(){
+                this.form_1 = switcherForm.weight
+            },
+            form_3(){
+                this.form_1 = switcherForm.dimensions
+            },
+            onChange(e){
+                console.log(e.target.value);
+                this.items=e.target.value;
+            },
+            
+        }
     }).mount('#add-product')
     </script>
 
 </body>
+
 </html>
