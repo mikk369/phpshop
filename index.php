@@ -113,6 +113,8 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
         padding-bottom: 40px;
     }
     .row{
+        display: flex;
+        justify-content: center;
         gap: 30px;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 150px);
@@ -122,18 +124,5 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
         width: 300px;  
 }
 </style>
-
-<script type="module">
-    import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-
-    createApp({
-        data() {
-        return {
-            title: 'Product list',
-            }
-        },
-    }).mount('#index')
-    </script>
-
 </body>
 </html>
