@@ -124,5 +124,18 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
         width: 300px;  
 }
 </style>
+
+<script type="module">
+    import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        data() {
+        return {
+            title: 'Product list',
+            }
+        },
+    }).mount('#index')
+    </script>
+
 </body>
 </html>
