@@ -74,18 +74,23 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
                 <div>
                     <h4>Type Switcher</h4>
                 </div>
-                <select v-model="items" name="typeSwitcher" id="typeSwitcher" @change="onChange($event)" >
-                    <option value="">Choose product type</option>
-                    <option value="form1">DVD</option>
-                    <option value="form2">Books</option>
-                    <option value="form3">Furniture</option>
+                <select name="typeSwitcher" id="typeSwitcher" v-model="itemType">
+                    <option value="DVD" id="DVD" >DVD</option>
+                    <option value="dimensions" id="dimensions">Furniture</option>
+                    <option value="weight" id="weight">Books</option>
+                    
                 </select>
             </div>
             <form method="POST">
                     <div class="switcher-form">
-                        <div class="row mb-1" v-for="type in switcherForm" v-html="type.size"></div>
-                        <div class="row mb-1" v-for="type in switcherForm" v-html="type.weight" ></div>
-                        <div class="row mb-1" v-for="type in switcherForm" v-html="type.dimensions" ></div>
+                        <!-- //slice used to remove unnecessary iterations from the v-for -->
+                        <div v-if="itemType === 'DVD'" class="row mb-1" v-html="item.size" v-for="item in switcherForm.slice(0,1)":key="item" >
+                        </div>
+                        <div v-if="itemType === 'dimensions'" class="row mb-1"v-html="item.dimensions" v-for="item in switcherForm.slice(1,2)":key="item">                            
+                        </div>
+                        <div v-if="itemType === 'weight'" class="row mb-1" v-html="item.weight" v-for="item in switcherForm.slice(2,3)":key="item" >
+                        </div>
+                        
                     </div>
             </form>
         </form>
@@ -103,7 +108,6 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
        }
       
        .switcher-form{
-        border: 3px solid black;
         width: 40%;
         padding: 9px;
         position: relative;
@@ -143,46 +147,30 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         data() {
         return {
             title: 'Add product',
-            form1: "",
-            form2: "",
-            form3: "",
-            items: "",
-            switcherForm: [{size: `
-                            <label class="col-sm-4 col-form-label">size (MB)</label>
+            itemType:null,
+            switcherForm: [
+                            {size:`
+                            <label class="col-sm-4 col-form-label">Size (MB)</label>
                             <div class="col-sm-6">
-                                <input type="text" name="size" placeholder="size" value="<?php echo $size; ?>"></input>
+                                <input id="size" type="text" name="size" placeholder="size" value="<?php echo $size; ?>"></input>
                             </div>
                             `},
-                            {weight: `
-                             <label class="col-sm-4 col-form-label">weight (KG)</label>
+                            {dimensions:`
+                            <label class="col-sm-4 col-form-label">Dimensions</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="dimensions" placeholder="dimensions" value="<?php echo $dimensions; ?>"></input>
+                            </div>
+                            `},
+                            {weight:`
+                             <label class="col-sm-4 col-form-label">Weight (KG)</label>
                             <div class="col-sm-6">
                                 <input type="text" name="weight" placeholder="weight" value="<?php echo $weight; ?>"></input>
                             </div>
                             `},
-                            {dimensions: `
-                            <label class="col-sm-4 col-form-label">dimensions</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="dimensions" placeholder="dimensions" value="<?php echo $dimensions; ?>"></input>
-                            </div>
-                            `}]        
+    
+                        ] 
             }
         },
-        methods: {
-            form_1(){
-                this.form_1 = switcherForm.size
-            },
-            form_2(){
-                this.form_1 = switcherForm.weight
-            },
-            form_3(){
-                this.form_1 = switcherForm.dimensions
-            },
-            onChange(e){
-                console.log(e.target.value);
-                this.items=e.target.value;
-            },
-            
-        }
     }).mount('#add-product')
     </script>
 
