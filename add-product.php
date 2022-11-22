@@ -72,12 +72,12 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
             </div>
             <div class="typeswitcher">
                 <div>
-                    <h4>Type Switcher</h4>
+                    <h4 class="typeHeading">Type Switcher</h4>
                 </div>
                 <select name="typeSwitcher" id="typeSwitcher" v-model="itemType">
                     <option value="DVD" id="DVD" >DVD</option>
-                    <option value="dimensions" id="dimensions">Furniture</option>
-                    <option value="weight" id="weight">Books</option>
+                    <option value="dimensions" id="Furniture">Furniture</option>
+                    <option value="weight" id="Book">Books</option>
                     
                 </select>
             </div>
@@ -97,6 +97,9 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         <hr>
     </div>
     <style>
+        .typeHeading{
+            margin-right: 9px;
+        }
        .typeswitcher{
         display: flex;
         align-items: center;
@@ -153,18 +156,21 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
                             <label class="col-sm-4 col-form-label">Size (MB)</label>
                             <div class="col-sm-6">
                                 <input id="size" type="text" name="size" placeholder="size" value="<?php echo $size; ?>"></input>
+                                <h6>Please provide DVD size in MB.</h6>
                             </div>
                             `},
                             {dimensions:`
                             <label class="col-sm-4 col-form-label">Dimensions</label>
                             <div class="col-sm-6">
                                 <input type="text" name="dimensions" placeholder="dimensions" value="<?php echo $dimensions; ?>"></input>
+                                <h6>Please provide dimensions in HxWxL. format</h6>
                             </div>
                             `},
                             {weight:`
                              <label class="col-sm-4 col-form-label">Weight (KG)</label>
                             <div class="col-sm-6">
                                 <input type="text" name="weight" placeholder="weight" value="<?php echo $weight; ?>"></input>
+                                <h6>Please provide Book weight in KG.</h6>
                             </div>
                             `},
     
