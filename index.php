@@ -80,6 +80,9 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
     </div>
         </form>
     <hr>
+    <div class="footer-wrap">
+            <footer>Scandiweb Test assignment</footer>
+        </div>
 </div>
 
 
@@ -89,6 +92,7 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
         padding: 0;
         box-sizing: border-box;
     }
+    
     p{
         margin-bottom: 0;
     }
@@ -123,6 +127,14 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
         display: flex;
         width: 300px;  
 }
+    .footer-wrap{
+            display: flex;
+            
+        }
+    footer{
+            justify-content: center;
+            text-align: center;
+        }
 </style>
 
 <script type="module">
