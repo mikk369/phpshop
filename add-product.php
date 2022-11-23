@@ -9,7 +9,9 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
     $price = "";
     $size = "";
     $weight = "";
-    $dimensions ="";
+    $height = "";
+    $width = "";
+    $length = "";
 
     // check if data is transmitted using post method 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,10 +20,12 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         $price = $_POST["price"];
         $size = empty($_POST["size"]) ? "0" : $_POST["size"];
         $weight = empty($_POST["weight"]) ? "0" : $_POST["weight"];
-        $dimensions = empty($_POST["dimensions"]) ? "0" : $_POST["dimensions"];
+        $height = empty($_POST["height"]) ? "0" : $_POST["height"];
+        $width = empty($_POST["width"]) ? "0" : $_POST["width"];
+        $length = empty($_POST["length"]) ? "0" : $_POST["length"];
 
             //add new item to db
-            $sql = "INSERT INTO items (sku, name, price, size, weight, dimensions)" . "VALUES ('$sku', '$name', '$price', '$size', '$weight', '$dimensions')";
+            $sql = "INSERT INTO items (sku, name, price, size, weight, height, width, length)" . "VALUES ('$sku', '$name', '$price', '$size', '$weight', '$height', '$width', '$length')";
             //execute sql query
             $result = $connect->query($sql);
 
@@ -87,7 +91,7 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
                         <!-- //slice used to remove unnecessary iterations from the v-for -->
                         <div v-if="itemType === 'DVD'" class="row mb-1" v-html="item.size" v-for="item in switcherForm.slice(0,1)":key="item" >
                         </div>
-                        <div v-if="itemType === 'dimensions'" class="row mb-1"v-html="item.dimensions" v-for="item in switcherForm.slice(1,2)":key="item">                            
+                        <div v-if="itemType === 'dimensions'" class="row mb-1" v-html="item.dimensions" v-for="item in switcherForm.slice(1,2)":key="item">                            
                         </div>
                         <div v-if="itemType === 'Book'" class="row mb-1" v-html="item.weight" v-for="item in switcherForm.slice(2,3)":key="item" >
                         </div>
@@ -115,26 +119,34 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
             itemType:null,
             switcherForm: [
                             {size:`
-                            <label class="col-sm-3 col-form-label">Size (MB)</label>
+                            <label class="col-sm-6 col-form-label">Size (MB)</label>
                             <div class="col-sm-6">
                                 <input id="size" type="text" name="size" placeholder="size" value="<?php echo $size; ?>"></input>
-                                <h6>Please provide DVD size in MB.</h6>
                             </div>
+                                <h6>Please provide DVD size in MB.</h6>
                             `},
                             {dimensions:`
-                            <label class="col-sm-3 col-form-label">Dimensions</label>
+                            <label class="col-sm-6 col-form-label">Height (CM)</label>
                             <div class="col-sm-6">
-                                <input type="text" name="dimensions" placeholder="dimensions" value="<?php echo $dimensions; ?>"></input>
-                                <h6>Please provide dimensions in HxWxL. format</h6>
+                                <input type="text" name="height" placeholder="height" id="height" value="<?php echo $height; ?>"></input>
                             </div>
+                            <label class="col-sm-6 col-form-label">Width(CM)</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="width" placeholder="width" id="width" value="<?php echo $width; ?>"></input>
+                            </div>
+                            <label class="col-sm-6 col-form-label">Length(CM)</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="length" placeholder="length" id="length" value="<?php echo $length; ?>"></input>
+                            </div>
+                                <h6>Please provide dimensions in HxWxL. format</h6>
                             `},
                             {weight:`
-                             <label class="col-sm-3 col-form-label">Weight (KG)</label>
+                             <label class="col-sm-6 col-form-label">Weight (KG)</label>
                             <div class="col-sm-6">
                                 <input type="text" name="weight" placeholder="weight" id="weight" value="<?php echo $weight; ?>"></input>
+                                </div>
                                 <h6>Please provide Book weight in KG.</h6>
-                            </div>
-                            `},
+                            `},,
     
                         ] 
             }
