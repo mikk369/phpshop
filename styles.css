@@ -15,10 +15,8 @@
 }
 
 .switcher-form {
-  width: 40%;
-  padding: 9px;
-  position: relative;
-  flex-flow: row wrap;
+  display: flex;
+  width: 20%;
 }
 
 @media (max-width: 993px) {
