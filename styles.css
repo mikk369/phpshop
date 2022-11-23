@@ -1,0 +1,47 @@
+#product-form {
+  height: 100vh;
+}
+.typeHeading {
+  margin-right: 9px;
+}
+.typeswitcher {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dropdown {
+  padding: 6px;
+}
+
+.switcher-form {
+  width: 40%;
+  padding: 9px;
+  position: relative;
+  flex-flow: row wrap;
+}
+
+@media (max-width: 993px) {
+  .switcher-form input {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+}
+.nav-buttons button {
+  margin-right: 30px;
+}
+.dropdown {
+  width: 300px;
+}
+.footer-wrap {
+  display: flex;
+}
+footer {
+  justify-content: center;
+  text-align: center;
+}
