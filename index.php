@@ -1,37 +1,37 @@
 <?php
-// include_once "./dbConn.php";
-// $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
+include_once "./dbConn.php";
+$connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
 
-// if(!$connect) {
-//     echo "Connection Error:" . mysqli_connect_errno();
-// }
-// //query for the items i want
-// $sql = "SELECT * FROM items";
-// //make query & get result
-// $result = mysqli_query($connect, $sql);
-// //fetch th resulting rows as an array
-// $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
+if(!$connect) {
+    echo "Connection Error:" . mysqli_connect_errno();
+}
+//query for the items i want
+$sql = "SELECT * FROM items";
+//make query & get result
+$result = mysqli_query($connect, $sql);
+//fetch th resulting rows as an array
+$items = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-// // print_r($items);
+// print_r($items);
 
-// 	// // Shows all post values:
-// 	// foreach($_POST as $key => $value)
-// 	// {
-// 	// echo 'Key = ' . $key . '&nbsp;';
-// 	// echo 'Value= ' . $value . '<br />';
-// 	// }
-//     if(isset($_POST["no"])){
-//     $no = $_POST['no']; // take checkbox values , its array;
-//     // echo "<pre>";
-//     // print_r($no);   // shows whats inside array
-//     // echo "</pre>";
-//     $no_to_comma_list = implode(',', $no); // changes array to string separated with commas;
-//     // echo $no_to_comma_list;
-//     // echo "DELETE FROM items WHERE id IN (".$no_to_comma_list.")";
-//     mysqli_query($connect,"DELETE FROM items WHERE id IN (".$no_to_comma_list.")");
-//     //returns to index page to remove deleted items
-//     header("location:index.php");
-//     }   
+	// // Shows all post values:
+	// foreach($_POST as $key => $value)
+	// {
+	// echo 'Key = ' . $key . '&nbsp;';
+	// echo 'Value= ' . $value . '<br />';
+	// }
+    if(isset($_POST["no"])){
+    $no = $_POST['no']; // take checkbox values , its array;
+    // echo "<pre>";
+    // print_r($no);   // shows whats inside array
+    // echo "</pre>";
+    $no_to_comma_list = implode(',', $no); // changes array to string separated with commas;
+    // echo $no_to_comma_list;
+    // echo "DELETE FROM items WHERE id IN (".$no_to_comma_list.")";
+    mysqli_query($connect,"DELETE FROM items WHERE id IN (".$no_to_comma_list.")");
+    //returns to index page to remove deleted items
+    header("location:index.php");
+    }   
     
 // ?>
 
@@ -129,14 +129,11 @@
         display: flex;
         width: 300px;  
 }
-    .footer-wrap{
-            display: flex;
-            
-        }
-    footer{
-            justify-content: center;
-            text-align: center;
-        }
+
+footer {
+  justify-content: center;
+  text-align: center;
+}
 </style>
 
 <script type="module">
