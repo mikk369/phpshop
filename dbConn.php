@@ -2,4 +2,4 @@
 $serverName = "localhost";
 $userName = "root";
 $password = "";
-$database = "webshop";
+$database = "id19902331_webshop";
