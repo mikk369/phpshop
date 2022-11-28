@@ -1,7 +1,11 @@
 <?php
 //db connection
 include_once "./dbConn.php";
-$connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
+class addProduct extends dbConn {
+
+    
+    
+}
 
 //variables to fill the form
     $sku = "";

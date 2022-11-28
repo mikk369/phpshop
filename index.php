@@ -1,39 +1,51 @@
 <?php
 include_once "./dbConn.php";
-$connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
+class Products extends dbConn {
 
-if(!$connect) {
-    echo "Connection Error:" . mysqli_connect_errno();
+    public function getItems() {
+        //query for the items i want
+        $sql = "SELECT * FROM items";
+        $stmt = $this->connect()->query($sql);
+        $items = $stmt->fetchAll();
+
+        foreach($items as $item) {
+           echo '<div class="card">';
+            echo '<label class="check-container">';
+                echo "<input type='checkbox' name='no[]' value='".$item['id']."' class='delete-checkbox'> ";
+            echo '</label>';
+                echo '<div class="item-info">';
+                    echo "<h4>";
+                    echo "<b>";
+                    echo "SKU: " .  $item["sku"];
+                    echo "</b>";
+                    echo "</h4>";
+                    echo "name: " .  $item["name"] . "<br>";
+                    echo "price: " .  $item["price"] . "<br>";
+                    echo "size: " .  $item["size"] . "<br>";
+                    echo "weight: " .  $item["weight"] . "<br>";
+                    echo "height: " .  $item["height"] . "<br>";
+                    echo "width: " .  $item["width"] . "<br>";
+                    echo "length: " .  $item["length"] . "<br>";
+                echo '</div>';
+            echo '</div>';
+
+        }
+        if(isset($_POST["no"])){
+            // take checkbox values , its array
+            $no = $_POST['no']; 
+             // changes array to string separated with commas;
+            $no_to_comma_list = implode(',', $no);
+            $query = $stmt("DELETE FROM items WHERE id IN (".$no_to_comma_list.")");
+            $query->execute();
+            //returns to index page to remove deleted items
+            header("location:index.php");
+            } 
+
+    }    
 }
-//query for the items i want
-$sql = "SELECT * FROM items";
-//make query & get result
-$result = mysqli_query($connect, $sql);
-//fetch th resulting rows as an array
-$items = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-// print_r($items);
-
-	// // Shows all post values:
-	// foreach($_POST as $key => $value)
-	// {
-	// echo 'Key = ' . $key . '&nbsp;';
-	// echo 'Value= ' . $value . '<br />';
-	// }
-    if(isset($_POST["no"])){
-    $no = $_POST['no']; // take checkbox values , its array;
-    // echo "<pre>";
-    // print_r($no);   // shows whats inside array
-    // echo "</pre>";
-    $no_to_comma_list = implode(',', $no); // changes array to string separated with commas;
-    // echo $no_to_comma_list;
-    // echo "DELETE FROM items WHERE id IN (".$no_to_comma_list.")";
-    mysqli_query($connect,"DELETE FROM items WHERE id IN (".$no_to_comma_list.")");
-    //returns to index page to remove deleted items
-    header("location:index.php");
-    }   
     
-// ?>
+?>
+    
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,38 +59,21 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
 </head>
 <body>
     <div class="container my-5" id="index">
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <form>
             <div class="nav-row mb3">
                 <h2>{{ title }}</h2>
                 <div class="nav-buttons">
                     <a class="btn btn-primary" href="/add-product.php" role="button">ADD</a>
-                    <input class="btn btn-danger" type="submit" name="delete_records" value="MASS DELETE">
+                    <input class="btn btn-danger" type="submit" name="delete_records[]" value="MASS DELETE">
                 </div>
             </div>
         <hr>
     <div class="row">
-        <!-- loop over item array  -->
-        <?php foreach($items as $item){  ?>
-
-        <div class="card">
-        <label class="check-container">
-            <?php
-                echo "<input type='checkbox' name='no[]' value='".$item['id']."' class='delete-checkbox'>";
-            ?>
-        </label>
-        <!-- render items on main page  -->
-        <div class="item-info">
-            <h4><b><?php echo htmlspecialchars($item["sku"]); ?></b></h4>
-            <p><?php echo "name: " . htmlspecialchars($item["name"]); ?></p>
-            <p><?php echo "price: " . htmlspecialchars($item["price"]); ?></p>
-            <p><?php echo "size: " . htmlspecialchars($item["size"]); ?></p>
-            <p><?php echo "weight: " . htmlspecialchars($item["weight"]); ?></p>
-            <p><?php echo "height: " . htmlspecialchars($item["height"]); ?></p>
-            <p><?php echo "width: " . htmlspecialchars($item["width"]); ?></p>
-            <p><?php echo "length: " . htmlspecialchars($item["length"]); ?></p>
-        </div>
-        </div>
-        <?php } ?> 
+        <!-- render product cards  -->
+        <?php 
+        $productObj = new Products();
+        $productObj->getItems();
+         ?>
     </div>
         </form>
     <hr>
