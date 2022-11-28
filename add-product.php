@@ -6,12 +6,14 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
 //variables to fill the form
     $sku = "";
     $name = "";
-    $price = "";
-    $size = "";
-    $weight = "";
-    $height = "";
-    $width = "";
-    $length = "";
+    $price = "0";
+    $size = "0";
+    $weight = "0";
+    $height = "0";
+    $width = "0";
+    $length = "0";
+
+    $errorMessage ="";
 
     // check if data is transmitted using post method 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -24,6 +26,12 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
         $width = empty($_POST["width"]) ? "0" : $_POST["width"];
         $length = empty($_POST["length"]) ? "0" : $_POST["length"];
 
+        do{
+            if(empty($sku)|| empty($name)||empty($price)) {
+                $errorMessage = "Please fill all fields";
+                break;
+            }
+
             //add new item to db
             $sql = "INSERT INTO items (sku, name, price, size, weight, height, width, length)" . "VALUES ('$sku', '$name', '$price', '$size', '$weight', '$height', '$width', '$length')";
             //execute sql query
@@ -32,6 +40,7 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
             //redirect after 
             header("location: /index.php");
             exit;
+        }while(false);
     }
 ?>
 <!DOCTYPE html>
@@ -40,7 +49,7 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./addProduct.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css
 ">
     <title>webShop</title>
@@ -56,6 +65,13 @@ $connect = mysqli_connect("$serverName", "$userName", "$password", "$database");
                 </div>
         </div>
         <hr>
+        <?php
+            if(!empty($errorMessage)){
+                echo"<div class='errorMessage'>$errorMessage</div>";
+
+            }
+
+        ?>
             <div class="row mb-3">
                 <label class="col-sm-1 col-form-label">sku</label>
                 <div class="col-sm-6">
